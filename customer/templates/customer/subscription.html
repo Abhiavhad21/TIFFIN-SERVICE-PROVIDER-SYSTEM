@@ -1,0 +1,36 @@
+{% extends 'customer_base.html' %}
+{% load static %}
+{% block content %}
+<div class="containter-fluid p-0" style="margin: -11px; margin-top:-31px">
+    <h3 class="p-2 px-4 mt-4">Plans & History</h3>
+    {% for plans in subscription %}
+    <div class="d-flex mx-lg-4 mb-4 flex-lg-nowrap flex-wrap">
+        <img class="img-responsive plan_photo glightbox" src="{% if plans.plan.image %}{{plans.plan.image.url}}{% endif %}">
+        <div class="p-2 px-lg-5 plans_details">
+            <p>Plan: <strong>{{plans.plan.plan}}</strong></p>
+            <p>Plan type: <strong>{{plans.plan.plan_type}}</strong></p>
+            <p>Mess name: <strong>{{plans.plan.mess.mess_name|title}}</strong></p>
+            <p class="text-muted">{{plans.plan.description}}</p>
+            <p>Duration: <strong>{{plans.plan.duration}}</strong></p>
+        </div>
+        <div class="d-flex flex-md-nowrap flex-wrap flex-grow-1">
+            <div class="p-2 plans_details flex-grow-1">
+                <p class="text-end">
+                <span class="text-light p-1 " style="background: #8b8b8bc2">Start Date</span><span class="text-light p-1" style="background:#ff1b1bc2;">{{plans.created_on|date}}</span>
+                </p>
+            </div>
+            <div class="p-2 plans_details">
+                <p class="text-end">
+                <span class="text-light p-1 " style="background: #8b8b8bc2">End Date</span><span class="text-light p-1" style="background:#ff1b1bc2;">{{plans.end_date|date}}</span>
+                </p>
+            </div>
+            <div class="p-2 plans_details">
+                <p class="text-end">
+                <span class="text-light p-1" style="background: #8b8b8bc2">Status</span><span class="text-light p-1" style="background:#ff1b1bc2;">{{plans.plan_status}}</span>
+                </p>
+            </div>
+        </div>
+    </div>  
+    {% endfor %}
+</div>
+{% endblock %}

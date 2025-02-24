@@ -1,0 +1,125 @@
+{% extends 'customer_base.html' %}
+{% load custom_tags %}
+{% load static %}
+{% block content %}
+<div class="containter-fluid p-0" style="margin:-11px; margin-top:-31px"> 
+  <div class="bg-dark" style="height:260px">
+    <div class="row mx-0 p-4 align-items-baseline flex-sm-nowrap flex-wrap" style="margin-top:30px" >
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <img class="mess_profile_photo glightbox" style= "margin-top:70px;" 
+            src="{{customer.profile_photo.url}}">
+      </div>
+      <div class="col-sm-6  text-light px-5 user_names">
+        <h1>{{customer.full_name|title}}</h1>
+        <h6>{{customer.city|title}} </h6>
+      </div>  
+    </div>
+  </div>
+  <div class="d-flex px-4 align-items-center flex-sm-nowrap flex-wrap edit-profiles" style="background:#ececec9f">
+    <div class="flex-item flex-grow-1">
+      <a href="{% url 'customer:update-profile' %}" class="btn" style="width: 200px; margin-top:30px;
+          background: white;
+          border: 1px solid #d3d3d3ad;
+          box-shadow: 0px 0px 2px -1px">Edit Profiles</a>
+    </div>
+    <div class="d-flex justify-content-sm-end justify-content-center flex-grow-1">
+      <div class="flex-item p-2 px-2 mess_numbers">
+        <h1 class="text-center">{{subscription.count}}</h1>
+        <p class="font-weight-bold" style="font-size:15px">Active Plans</p>
+      </div>
+      <div class="flex-item p-2 px-4 mess_numbers">
+        <h1 class="text-center">{{orders.count}}</h1>
+        <p class="font-weight-bold" style="font-size:15px">Orders</p>
+      </div>
+    </div>
+  </div>
+  <h3 class="p-2 px-4 mt-4">About</h3>
+  <div style="margin: 29px; background: #ececec9f;" class="m-3 my-3 p-4">
+    <div class="p-1 mess_details">Joined on: {{customer.registered_at|date}}</div>
+    <div class="p-1 mess_details">Full Name: {{customer.full_name|title}}</div>
+    <div class="p-1 mess_details">Contact: {{customer.phone_no}}</div>
+    <div class="p-1 mess_details">Address: {{customer.address}}</div>
+    <div class="p-1 mess_details">City: {{customer.city}}</div>
+    <div class="p-1 mess_details"> Date Of Birth : {{customer.dob}}</div>
+  </div>
+  <h3 class="p-2 px-4 mt-5">Recent Orders</h3>
+  {% if recent_orders %}
+  <p class="px-4">*Order can only be Cancel before <span class="text-danger">9:00 AM</span>
+      for Lunch and <span class="text-danger">6:00 PM</span> for Dinner</p>
+  <div class="table-responsive mt-2 mb-4 px-4">
+    <table class="table table-striped table-md order_table">
+      <thead>
+        <tr>
+          <th scope="col">Order ID</th>
+          <th scope="col">Mess</th>
+          <th scope="col" class="text-nowrap">Order Type</th>
+          <th scope="col">Menu</th>
+          <th scope="col" class="text-nowrap">Secret OTP</th>
+          <th scope="col">Date</th>
+          <th colspan="2" scope="col">Order Status</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for order in recent_orders %}
+          <tr class="customer">
+              <td>{{order.order_id}}</td>
+              <td><strong>{{order.mess.mess_name|title}}</strong></td>
+              <td class="text-primary">{{order.menu.category}}</td>
+              <td><strong>{{order.menu.name}}</strong>:<br>{{order.menu.items}}</td>
+              <td><button class="btn btn-md text-primary border border-1" style="font-weight:600" 
+                    onclick="alert('Your Secret One Time Passowrd is {{order.verify_otp}}')">Get OTP</button></td>
+              <td><span style="font-weight:600">{{order.created_on|date}}</span></td>
+              <td><span class="text-light p-1" {% if order.status == "INPROCESS" %} 
+                  style="background:#b4c913; font-weight: 600;"{% elif order.status == "Delivered" %} style="background:rgb(0, 128, 38);"
+                  {% else %} style="background:#ff1b1bc2;" {% endif %}>
+                {{order.status}}</span></td>
+              
+              <td>{% if order.status == "INPROCESS" %}
+                 <a class="btn btn-md text-primary border border-1" 
+                    href="{% url 'customer:cancel_order' order.order_id %}?order_type={{order.menu.category}}"
+                    style="font-weight:600">Cancel</a>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-info px-4">There are No orders for today!!</p>
+  {% endif %}
+  <h3 class="p-2 px-4 mt-4">Current Subscription</h3>
+  {% if subscription %}
+  {% for plans in subscription %}
+  <div class="d-flex mx-4 mb-4 flex-lg-nowrap flex-wrap">
+    <img class="img-responsive plan_photo glightbox" src="{{plans.plan.image.url}}">
+    <div class="p-2 px-md-5 plans_details">
+      <p>Plan: <strong>{{plans.plan.plan}}</strong></p>
+      <p>Plan type: <strong>{{plans.plan.plan_type}}</strong></p>
+      <p>Mess name: <strong>{{plans.plan.mess.mess_name|title}}</strong></p>
+      <p class="text-muted">{{plans.plan.description}}</p>
+      <p>Duration: <strong>{{plans.plan.duration}}</strong></p>
+    </div>
+    <div class="d-flex flex-sm-nowrap flex-wrap flex-grow-1">
+      <div class="p-2 plans_details flex-grow-1">
+        <p class="text-sm-end">
+          <span class="text-light p-1 " style="background: #8b8b8bc2">End Date</span><span class="text-light p-1" style="background:#158dc1d9;">{{plans.end_date|date}}</span>
+        </p>
+      </div>
+      <div class="p-2 plans_details">
+        <p class="text-sm-end">
+          <span class="text-light p-1" style="background: #8b8b8bc2">Status</span><span class="text-light p-1" style="background:#3abb21;">{{plans.plan_status}}</span>
+        </p>
+        <button class="btn" onclick="cancel_this_plan(this, '{{plans.id}}')">Cancel Plan</button>
+      </div>
+    </div>
+  </div>  
+  {% endfor %}
+  {% else %}
+  <div class="d-flex align-items-center justify-content-center">
+    <h3 class="not_active_plans mx-2 ">You do not have any Active Plans!</h3>
+    <img class="img-responsive expired_icon" src="{% static 'icons/expired_icon.jpg' %}">
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

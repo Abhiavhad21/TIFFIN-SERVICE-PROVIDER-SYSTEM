@@ -1,0 +1,57 @@
+{% extends 'customer_base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/edit_profile.css' %}" >
+</head>
+<div class="container-xl px-4 mt-4">
+    <!-- Account page navigation-->
+    <hr class="mt-0 mb-4">
+    <div class="row">
+        <div class="col-xl-4">
+            <!-- Profile picture card-->
+            <div class="card mb-4 mb-xl-0">
+                <div class="card-header">Profile Picture</div>
+                <div class="card-body text-center">
+                    <!-- Profile picture image-->
+                    <img class="img-account-profile mb-2 mess_profile_photo" style="border-radius:10%" id="previewImage"
+                    src="{{form.instance.profile_photo.url}}" alt="">
+                    <!-- Profile picture help block-->
+                    <div class="small font-italic text-muted mb-4"></div>
+                    <!-- Profile picture upload button-->
+                    <label for="product_image" class="btn btn-primary m-2"
+                            type="button">Upload new image</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-8">
+            <!-- Account details card-->
+            <div class="card mb-4">
+                <div class="card-header">Account Details</div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <!-- Form Row-->
+                        <div style="display:none">{{form.profile_photo}}</div>
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (first name)-->
+                            {% for fields in form %}
+                            {% if fields != form.profile_photo %}
+                            <div class="col-md-6 my-2">
+                                <!-- <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" value="Valerie"> -->
+                                {{fields}}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            <!-- Form Group (last name)-->
+                        </div>
+                        <!-- Form Row-->
+                        <!-- Save changes button-->
+                        <button class="btn btn-primary m-2" type="submit">Save changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
