@@ -1,0 +1,132 @@
+{% extends 'main_home.html' %}
+{% load static %}
+{% block content %}
+<div class="containter-fluid p-0" style="margin:-11px; margin-top:-31px">
+  <div class="bg-dark" style="height:260px;" >
+  <div class="row mx-0 p-3 align-items-baseline flex-sm-nowrap flex-wrap" style="margin-top:30px" >
+    <div class="col-sm-6 col-md-4 col-lg-3" >
+      <img class="mess_profile_photo glightbox" style= "margin-top:70px;" 
+      src="{{mess.vendor.profile_photo.url}}">
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3 text-light px-2 user_names">
+      <h1>{{mess.mess_name|title}}</h1>
+      <h6>{{mess.vendor.city|title}} </h6>
+    </div>
+  </div>
+ </div>
+ <div class="d-flex px-4 align-items-center flex-sm-nowrap flex-wrap edit-profiles" style="background:#ececec9f">
+  <div class="flex-item flex-grow-1">
+    <a href="{% url 'vendor:edit-vendor-profile' %}" class="btn" style="width: 200px;
+        background: white;
+        border: 1px solid #d3d3d3ad;
+        box-shadow: 0px 0px 2px -1px">Edit Profiles</a>
+  </div>
+  <div class="d-flex justify-content-sm-end justify-content-center flex-grow-1">
+    <div class="flex-item p-1 px-2 mess_numbers">
+      <h1 class="text-center">{{customers.count}}</h1>
+      <p class="font-weight-bold text-center" style="font-size:15px">Customers<br><span class="badge text-success">Active</span></p>
+    </div>
+    <div class="flex-item p-1 px-4 mess_numbers">
+      <h1 class="text-center">{{orders.count}}</h1>
+      <p class="font-weight-bold text-center" style="font-size:15px">Orders<br><span class="badge text-success">Delivered</span></p>
+    </div>
+    <div class="flex-item p-1 px-4 mess_numbers">
+      <h1 class="text-center">{{subscription.count}}</h1>
+      <p class="font-weight-bold text-center" style="font-size:15px">Subscription<br><span class="badge text-success">Total Sold</span></p>
+    </div>
+  </div>
+</div>
+<h2 class="p-2 px-4">About</h2>
+<div style="margin: 29px; background: #ececec9f;" class="m-3 my-2 p-4">
+  <div class="p-1 mess_details">Mess Owner: {{mess.vendor.full_name|title}}</div>
+  <div class="p-1 mess_details">Contact: {{mess.vendor.phone_no}}</div>
+  <div class="p-1 mess_details">Address: {{mess.vendor.address}}</div>
+  <div class="p-1 mess_details">City: {{mess.vendor.city}}</div>
+  <div class="p-1 mess_details"> Description : {{mess.about}}</div>
+</div>
+<h3 class="p-2 px-4 mt-5">Recent Orders</h3>
+  <div class="table-responsive mt-2 mb-4 px-4">
+    {% if recent_orders %}
+    <table class="table table-striped table-md order_table">
+      <thead>
+        <tr>
+          <th scope="col">Order ID</th>
+          <th scope="col">Customer</th>
+          <th scope="col" class="text-nowrap">Order Type</th>
+          <th scope="col">Menu</th>
+          <th scope="col">Date</th>
+          <th scope="col" class="text-nowrap">Order Status</th>
+          <th scope="col">Change Status</th>
+          <th scope="col">Address</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for order in recent_orders %}
+          <tr class="customer">
+              <td>{{order.order_id}}</td>
+              <td><strong>{{order.customer.full_name|title}}</strong></td>
+              <td class="text-primary">{{order.menu.category}}</td>
+              <td><strong>{{order.menu.name}}</strong>:<br>{{order.menu.items}}</td>
+              <td><span style="font-weight:600">{{order.created_on|date}}</span></td>
+              <td><span class="text-light p-1" {% if order.status == "INPROCESS" %} 
+                  style="background:#b4c913; font-weight: 600;"{% elif order.status == "DELIVERED" %} 
+                  style="background:rgb(10, 175, 10);"
+                  {% else %} style="background:#ff1b1bc2;" {% endif %}>
+                {{order.get_status_display}}</span>
+              </td>
+              <td class="text-center">{% if order.status == 'INPROCESS' or order.status == 'ORDERED' %}
+                <button class="btn create-order" data-bs-toggle="modal" onclick="set_otp_field(this,'{{order.order_id}}')"
+                data-bs-target="#changeorderstatus">Change Status</button>
+                {% else %}
+                <span class="text-success" style="font-weight:600">Status Updated</span>
+                {% endif %}
+              </td>
+              <td><span>{{order.customer.address}}</span></td>
+          </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="text-info">There are No orders for today!!</p>
+    {% endif %}
+    <div class="modal fade" id="changeorderstatus" tabindex="-1" aria-labelledby="changeorderstatus" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+          <form method="post" action="{% url 'vendor:verify_order_otp' %}" id="verify_otp_form">
+          {% csrf_token %}
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Change Status</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="d-flex align-items-center my-2">
+                <label class="form-label mb-0" style="font-size:15px">Choose Status:</label>
+                <div class="form-check px-5" style="font-size:15px">
+                  <input class="form-check-input" style="margin-top:4px !important" type="radio" 
+                    name="changeorderstatus" id="changeorderstatus1" value="DELIVERED" checked>
+                  <label class="form-check-label" for="changeorderstatus1">
+                    Delivered
+                  </label>
+                </div>
+                <div class="form-check px-3" style="font-size:15px">
+                  <input class="form-check-input" style="margin-top:4px !important" type="radio" 
+                    name="changeorderstatus" id="changeorderstatus2" value="CANCELLED">
+                  <label class="form-check-label" for="changeorderstatus2">
+                    Cancelled
+                  </label>
+                </div>
+              </div>
+                <input class="form-control" type="text" id="otpfield" name="otpfield" 
+                  placeholder="Enter OTP shared by customer" required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Verify</button>
+            </div>
+          </form>
+      </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

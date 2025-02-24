@@ -1,0 +1,57 @@
+{% extends 'main_home.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+<head>
+	<link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+</head>
+<section id="pricing" class="pricing-content mb-2 pt-2">
+	<div class="container">	
+        <div class="add_menu_form mb-3 hidden_class">
+            {% include 'add_menu_item.html' %}
+        </div>				
+		<div class="section-title d-flex align-items-center">
+            <div class="flex-grow-1">
+              <h3>Subscription Plans</h3>
+            </div>
+            <div class="flex-grow-1 text-end">
+              <button id="add_item" class="btn btn-md btn-primary">
+                <span style="font-weight:bold">Add Plans</span>
+              </button> 
+            </div>
+          </div>				
+		<div class="row text-center">	
+            {% for item in plans %}								
+			<div class="col-lg-4 col-sm-6 col-xs-12 wow fadeInUp parent" data-wow-duration="1s" data-wow-delay="0.1s" data-wow-offset="0" style="visibility: visible; animation-duration: 1s; animation-delay: 0.1s; animation-name: fadeInUp;">
+				<div class="pricing_design">
+					<div class="single-pricing">
+						<div class="price-head">		
+							<h2>{{item.plan|title}}</h2>
+							<h1>&#8377;{{item.price}}</h1>
+							<span>/Monthly</span>
+						</div>
+						<ul>
+						<li>{% with item.description as words %}
+                            {% for word in words|split %}   
+							<b>{{word}}</b>
+                            {% endfor %}
+                            {% endwith %}</li>
+						</ul>
+						<div class="pricing-price">
+							<p>{{item.subtitle}}</p>
+							{% if item.plan_type == "BOTH" %}
+							<b>Plan for Lunch & Dinner</b>
+							{% else %}
+							<b>Plan for {{item.get_plan_type_display}}</b>
+							{% endif %}
+						</div>
+						<a href="{% url 'vendor:get_mess_plan' item.id %}" class="price_btn">Edit</a>
+						<button onclick="delete_item(this, '{{item.id}}', 'plan')" class="border-0 price_btn">Remove</button>
+					</div>
+				</div>
+			</div><!--- END COL -->	
+            {% endfor  %}
+		</div><!--- END ROW -->
+	</div><!--- END CONTAINER -->
+</section>
+{% endblock %}

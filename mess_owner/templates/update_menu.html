@@ -1,0 +1,28 @@
+{% extends 'main_home.html' %}
+{% block content %}
+<h3 class="mb-4 section-header">Add Menu</h3>
+<form method="post" enctype="multipart/form-data" class="form_style">
+  <div class="row p-md-5 p-sm-4">
+  {% csrf_token %}
+  {% for fields in form %}
+  <div class="col-sm-6 mb-3">
+      {{ fields.errors }}
+      {% if fields == form.image %}
+      {{fields}}
+      <span>*image format must jpg, png</span>
+      {% else %}
+      {{ fields }}
+      {% endif %}
+  </div>
+  {% endfor %}
+  <div class="d-flex flex-row-reverse submit_menu_form">
+    <button class="btn mx-2 btn-md btn-primary" type="submit">
+      <span style="font-weight:bold">Save</span>
+    </button>
+    <button class="btn mx-2 btn-md btn-primary cancel_button"type="button" onclick="window.history.back()">
+      <span style="font-weight:bold">Cancel</span>
+    </button>
+  </div>
+  </div>
+</form>
+{% endblock %}

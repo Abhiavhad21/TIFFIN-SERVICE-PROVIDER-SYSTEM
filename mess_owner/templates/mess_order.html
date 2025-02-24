@@ -1,0 +1,127 @@
+{% extends 'main_home.html' %}
+{% load static %}
+{% block content%}
+<div class="container my-4">
+    <div class="d-flex">
+        <button class="btn create-order" data-bs-toggle="modal" 
+            data-bs-target="#exampleModal">Create an order</button>
+    </div>
+  <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+              {% csrf_token %}
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Creat An Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <label class="form-label">Select Order Type</label>
+                  <select class="form-select" id="order_type" name="order_type" required>
+                    <option>Select</option>
+                    <option value="LUNCH">Lunch</option>
+                    <option value="DINNER">Dinner</option>
+                  </select>
+                  <label class="form-label">Select Order Menu</label>
+                  <select class="form-select" id="menu_type" name="menu_type" required> </select>
+                  <label class="form-label">Select Customers</label>
+                  <input type="radio" class="select_customer" name="select_customer" value="all" checked>
+                  <label for="All">All</label>
+                  <input type="radio" class="select_customer" name="select_customer" value="random">
+                  <label for="select_customer">Select Manually</label>
+                  <select class="form-select hidden_class" id="customers_to_deliver" 
+                    name="customer_list" multiple>
+                  </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Send Order</button>
+              </div>
+            </form>
+        </div>
+        </div>
+    </div>
+    <div class="table-responsive mt-2">
+        <table class="table table-striped table-md order_table">   
+          <thead>
+            <tr>
+              <th scope="col">Order ID</th>
+              <th scope="col" >Customer</th>
+              <th scope="col">Date</th>
+              <th scope="col" class="text-nowrap">Menu Type</th>
+              <th scope="col">Menu</th>
+              <th scope="col" class="text-nowrap">Order Status</th>
+              <th scope="col">Change Status</th>
+              <th scope="col">Address</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for order in orders %}
+              <tr class="customer">
+                  <td>{{order.order_id}}</td>
+                  <td>{{order.customer.full_name|title}}</td>
+                  <td>{{order.created_on}}</td>
+                  <td>{{order.menu.category}}</td>
+                  <td><strong>{{order.menu.name}}</strong>:<br>{{order.menu.items}}</td>
+                  <td><span class="badge p-1"
+                    {% if order.status == "INPROCESS" %} 
+                   style="background:#b4c913; font-weight: 600; font-size:12px" {% elif order.status == "DELIVERED" %} 
+                   style="background:rgb(10, 175, 10); font-weight: 600; font-size:12px"
+                   {% else %} style="background:#ff1b1bc2; font-weight: 600; font-size:12px" {% endif %}>{{order.get_status_display}}
+                   </span>
+                  </td>
+                  <td class="text-center">{% if order.status == 'INPROCESS' or order.status == 'ORDERED' %}
+                    <button class="btn create-order" data-bs-toggle="modal" 
+                      onclick="set_otp_field(this,'{{order.order_id}}')"
+                      data-bs-target="#changeorderstatus">Change Status</button>
+                    {% else %}
+                    <span class="text-success" style="font-weight:600">Status Updated</span>
+                    {% endif %}
+                  </td>
+                  <td><span>{{order.customer.address}}</span></td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="changeorderstatus" tabindex="-1" aria-labelledby="changeorderstatus" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <form method="post" action="{% url 'vendor:verify_order_otp' %}" id="verify_otp_form">
+      {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Change Status</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="d-flex align-items-center my-2">
+            <label class="form-label mb-0" style="font-size:15px">Choose Status:</label>
+            <div class="form-check px-5" style="font-size:15px">
+              <input class="form-check-input" style="margin-top:4px !important" type="radio" 
+                name="changeorderstatus" id="changeorderstatus1" value="DELIVERED" checked>
+              <label class="form-check-label" for="changeorderstatus1">
+                Delivered
+              </label>
+            </div>
+            <div class="form-check px-3" style="font-size:15px">
+              <input class="form-check-input" style="margin-top:4px !important" type="radio" 
+                name="changeorderstatus" id="changeorderstatus2" value="CANCELLED">
+              <label class="form-check-label" for="changeorderstatus2">
+                Cancelled
+              </label>
+            </div>
+          </div>
+            <input class="form-control" type="text" id="otpfield" name="otpfield" 
+              placeholder="Enter OTP shared by customer" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Verify</button>
+        </div>
+      </form>
+  </div>
+  </div>
+</div>
+{% endblock %}

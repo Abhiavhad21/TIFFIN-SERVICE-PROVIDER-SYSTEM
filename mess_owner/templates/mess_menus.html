@@ -1,0 +1,250 @@
+{% extends 'main_home.html' %}
+{% load static %}
+{% block content %}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Menu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" enctype="multipart/form-data" class="form_style">
+      <div class="modal-body">
+          <div class="row">
+          {% csrf_token %}
+          {% for fields in form %}
+          <div class="col-12 mb-3">
+              {{ fields.errors }}
+              {{ fields }}
+          </div>
+          {% endfor %}
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn mx-2 btn-md btn-primary" type="submit">
+          <span style="font-weight:bold">Save</span>
+        </button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<section id="menu" class="menu">
+    <div class="container" data-aos="fade-up">
+      <div class="add_menu_form mb-3 hidden_class">
+        {% include 'add_menu_item.html' %}
+      </div>
+      <div class="section-header d-flex align-items-center">
+        <div class="flex-grow-1">
+          <h2>Mess Menu</h2>
+          <p>Your <span>Mess </span>Menu</p>
+        </div>
+        <div class="flex-grow-1 text-end">
+          <!-- <button id="add_item" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-md btn-primary">
+            <span style="font-weight:bold">Add Item</span>
+          </button> -->
+          <button id="add_item" class="btn btn-md btn-primary">
+            <span style="font-weight:bold">Add Menu</span>
+          </button> 
+        </div>
+      </div>
+      <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="200">
+        {% comment %}
+        <li class="nav-item">
+          <a class="nav-link " data-bs-toggle="tab" data-bs-target="#menu-starters">
+            <h4>Starters</h4>
+          </a>
+        </li><!-- End tab nav item -->
+
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-breakfast">
+            <h4>Breakfast</h4>
+          </a><!-- End tab nav item -->
+        </li>
+          {% endcomment %}
+
+        <li class="nav-item">
+          <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#menu-lunch">
+            <h4>Lunch</h4>
+          </a>
+        </li><!-- End tab nav item -->
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-dinner">
+            <h4>Dinner</h4>
+          </a>
+        </li><!-- End tab nav item -->
+
+        {% comment %}
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-fast">
+            <h4>Fast</h4>
+          </a>
+        </li><!-- End tab nav item -->
+        {% endcomment %}
+      </ul>
+      <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+        {% comment %}
+        <div class="tab-pane fade " id="menu-starters">
+          <div class="tab-header text-center">
+            <p>Menu</p>
+            <h3>Starters</h3>
+          </div>
+          <div class="row  px-5 gy-5">
+            {% for item in menus %}
+              {% if item.category == "STARTER" %}
+              <div class="col-lg-4 menu-item">
+                <a href="{% url 'vendor:get_menu' item.id %}">
+                  <i class="bi bi-pencil-square edit_icon" style="float:right"></i>
+                </a>
+                <a href="#" class="glightbox">
+                  <img src="{{item.image.url}}" class="menu-img img-fluid" alt="">
+                </a>
+                <h4>{{item.name|title}}</h4>
+                <p class="ingredients">
+                  {{item.items|title}}
+                </p>
+              </div><!-- Menu Item -->
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>End Starter Menu Content
+
+        <div class="tab-pane fade" id="menu-breakfast">
+          <div class="tab-header text-center">
+            <p>Menu</p>
+            <h3>Breakfast</h3>
+          </div>
+          <div class="row px-5 gy-5">
+            {% for item in menus %}
+              {% if item.category == "BREAKFAST" %}
+              <div class="col-lg-4 menu-item">
+                <a href="{% url 'vendor:get_menu' item.id %}">
+                <i class="bi bi-pencil-square edit_icon" style="float:right"></i>
+                </a>
+                <a href="#" class="glightbox">
+                  <img src="{{item.image.url}}" class="menu-img img-fluid" alt="">
+                </a>
+                <h4>{{item.name|title}}</h4>
+                <p class="ingredients">
+                  {{item.items|title}}
+                </p>
+                <p class="price">
+                  &#8377;{{item.price}}
+                </p>
+              </div><!-- Menu Item -->
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div><!-- End Breakfast Menu Content -->
+        {% endcomment %}
+
+
+        <div class="tab-pane fade active show" id="menu-lunch">
+          <div class="tab-header text-center">
+            <p>Menu</p>
+            <h3>Lunch</h3>
+          </div>
+
+          <div class="row px-5 gy-5">
+            {% for item in menus %}
+              {% if item.category == "LUNCH" or item.category == "BOTH" %}
+              <div class="col-lg-4 col-sm-6 menu-item">
+                <a href="{% url 'vendor:get_menu' item.id %}">
+                  <i class="bi bi-pencil-square edit_icon" style="float:right;left:40%"></i>
+                </a>
+                <a href="{% url 'vendor:delete_menu' item.id %}" >
+                  <i class="bi bi-trash edit_icon" style="float:right;left:60%"></i>
+                </a>
+                <a href="#" class="glightbox">
+                  <img src="{% if item.image %}{{item.image.url}}{% endif %}" class="menu-img" 
+                  style="width:100%; height:200px" alt="">
+                </a>
+                <h4>{{item.name|title}}</h4>
+                <p class="ingredients">
+                  {{item.items|title}}
+                </p>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div><!-- End Lunch Menu Content -->
+
+        <div class="tab-pane fade" id="menu-dinner">
+          <div class="tab-header text-center">
+            <p>Menu</p>
+            <h3>Dinner</h3>
+          </div>
+
+          <div class="row px-5 gy-5">
+            {% for item in menus %}
+            {% if item.category == "DINNER" or item.category == "BOTH" %}
+            <div class="col-lg-4 col-sm-6 menu-item">
+              <a href="{% url 'vendor:get_menu' item.id %}">
+                <i class="bi bi-pencil-square edit_icon" style="float:right;left:40%"></i>
+              </a>
+              <a href="{% url 'vendor:delete_menu' item.id %}" >
+                <i class="bi bi-trash edit_icon" style="float:right;left:60%"></i>
+              </a>
+              <a href="#" class="glightbox">
+                <img src="{% if item.image %}{{item.image.url}}{% endif %}" class="menu-img" 
+                style="width:100%; height:200px" alt="">
+              </a>
+              <h4>{{item.name|title}}</h4>
+              <p class="ingredients">
+                {{item.items|title}}
+              </p>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div><!-- End Dinner Menu Content -->
+        {% comment %}
+        <div class="tab-pane fade" id="menu-fast">
+          <div class="tab-header text-center">
+            <p>Menu</p>
+            <h3>Fast</h3>
+          </div>
+          <div class="row px-5 gy-5">
+            {% for item in menus %}
+            {% if item.category == "FAST" %}
+            <div class="col-lg-4 menu-item">
+              <a href="{% url 'vendor:get_menu' item.id %}">
+                <i class="bi bi-pencil-square edit_icon" style="float:right"></i>
+                </a>
+              <a href="#">
+                <img src="{{item.image.url}}" class="menu-img img-fluid" alt="">
+              </a>
+              <h4>{{item.name|title}}</h4>
+              <p class="ingredients">
+                {{item.items|title}}
+              </p>
+              <p class="price">
+                &#8377;{{item.price}}
+              </p>
+            </div><!-- Menu Item -->
+            {% endif %}
+            {% endfor %}
+          </div>
+       </div> <!-- End Dinner Menu Content -->
+       {% endcomment %}
+      </div>
+    </div>
+  </section>
+<script>
+  $('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus')
+  })
+
+  $(document).ready(function(){
+    $('.edit_icon').parent().hide()
+    $('.menu-item').hover(function(){
+      $(this).find('.edit_icon').parent().show()
+    }, function(){
+      $('.edit_icon').parent().hide()})
+    })
+  
+</script>
+{% endblock %}
