@@ -1,0 +1,286 @@
+.bg-image-vertical {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+    }
+    
+    @media (min-width: 1025px) {
+    .h-custom-2 {
+    height: 100%;
+    }
+    }      
+      
+.logo_text{
+    font-family: 'Poppins';
+    /* font-family: Poppins; */
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: 0.2px;
+    text-align: left;
+    color: #FFFFFF;
+}
+.login_heading{
+    font-family: 'Poppins';
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    line-height: 30px;
+    height:30px;
+    text-align: left;
+    color:#000000;
+    opacity: 80%;
+    
+}
+.input{
+    min-height: calc(1.5em + 1rem + 2px);
+    padding: 0.5rem 1rem;
+    width: 100% !important;
+    height: 45px !important;
+    letter-spacing: 0px !important;
+    text-align: left;
+    border-radius: 12px !important;
+    border: 1px solid #63636394 !important;
+    color: #484747;
+}
+
+.input::placeholder{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+    letter-spacing: 0px;
+    text-align: left;
+    height: 26px;
+    /* opacity: 100% !important; */
+    color: #000000 !important;
+    opacity: 60% !important;
+}
+#myCheckbox{
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 4px !important;
+}
+
+.label-style{
+    opacity: 75%;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    text-align: left;
+    color: #000000;
+}
+
+.upload-button{
+    padding-top: 8px;
+    width: 132px;
+    height: 46px;
+    border-radius: 12px;
+    border: 1px;
+    border: 1px solid #00000010;
+    color: #0A94F1;
+    background: none;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'poppins';
+    text-align:center;
+}
+
+.card{
+    margin-right: 12px;
+}
+.user-flex{
+    width: 100%;
+    background: #0a94f11a;
+    background-image: url('/mediafiles/icons/user_flex_bg.svg');
+    border-radius: 12px;
+}
+.flex-title{
+    font-family: 'Poppins';
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    text-align: left;
+    margin-bottom: 9px;
+}
+.flex-desc{
+    font-family: 'Poppins';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    text-align: left;
+    line-height: 15px;
+}
+.user-number{
+    font-family: 'Poppins';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    text-align: end;
+    margin-bottom: 0px;
+    margin-top: 11px;
+}
+.user-email{
+    font-family: 'Poppins';
+    font-size: 14px;
+    font-weight: 500;
+    text-align: end;
+    letter-spacing: 0.2px;
+    text-align: end;
+
+}
+
+.card-title{
+    font-family: 'Poppins';
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    letter-spacing: 0.2px;
+}
+
+.card-text{
+    font-family: 'Poppins';
+    font-size: 8px;
+    font-weight: 600;
+    line-height: 13px;
+    letter-spacing: 0.11px;
+    width: 39px;
+    margin-left: 31px;
+    height: 13.74px;
+    border-radius: 7px;
+    border: 0.44px solid #0A94F1;
+    margin-bottom:0;
+    color:#0A94F1;
+}
+.card-price{
+    margin-top:5px;
+    font-family: 'Poppins';
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 25px;
+    letter-spacing: 0px;
+    color:#0A94F1;
+}
+.card-body{
+    text-align: center;
+    padding:0 !important;
+    padding-top:10px !important;
+}
+
+/* .card{
+    width: 102px;
+    height: 84px;
+    border-radius: 12px !important;
+    border: 1px solid #00000010 !important;
+} */
+
+
+.remember_me{
+    margin-left:8px;
+    font-family: "Poppins" !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: 22px;
+    letter-spacing: 0px;
+    text-align: left;
+    width: 106px;
+    height: 22px;
+    opacity: 75% !important;
+}
+
+.form-check-input{
+    margin-top: 0 !important; 
+    vertical-align: middle !important;
+}
+.form-check-input:checked {
+    background-color: #0A94F1 !important;
+    border-color: #0A94F1 !important;
+}
+
+.forget_password{
+        color: #0A94F1;
+        /* width: 125px; */
+        height: 22px;
+        float: right;
+        font-family: 'Poppins';
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 22px;
+        letter-spacing: 0px;
+        text-align: right;
+        text-decoration: none;
+}
+
+.login_button{
+    width: 100% !important;
+    height: 40px;
+    border:none !important;
+    box-shadow: none !important;
+    border-radius: 12px;
+    background: #0A94F1;
+    border-color: #0A94F1;
+}
+.login_button span{
+    color:white;
+    width: 45px;
+    font-family: 'Poppins';
+    font-size: 16px;
+    font-weight: 700;
+    border:none;
+    letter-spacing: 0.2px;
+    text-align: left;
+}
+
+@media (max-width:576px){
+    .flex-title{
+        font-size: 20px;
+    }
+    .flex-desc{
+        font-size: 10px;
+    }
+    .user-number{
+        font-size: 10px;
+    }
+    .user-email{
+        font-size: 10px;
+    }
+}
+
+@media (max-width:991px){
+    .user-number{
+        text-align: start;
+    }
+    .user-email{
+        text-align: start;
+    }
+}
+
+.validate_number{
+    font-weight: 500;
+    font-size: 12px;
+    display: none;
+}
+.img-div{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}
+
+.mesh-img{
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+}
+
+.form_style{
+    background: #f8f8f8;
+    border: 1px solid #f1f1f1;
+    border-radius: 12px;
+}
+
+.hidden_class{
+    display: none;
+}

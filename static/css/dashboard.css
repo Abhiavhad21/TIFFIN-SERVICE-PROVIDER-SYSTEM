@@ -1,0 +1,190 @@
+body {
+  font-size: .875rem;
+}
+
+.feather {
+  width: 16px;
+  height: 16px;
+  vertical-align: text-bottom;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  /* rtl:remove */
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+@media (max-width: 767.98px) {
+  .sidebar {
+    top: 5rem;
+  }
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: .5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: #333;
+}
+
+.sidebar .nav-link .feather {
+  margin-right: 4px;
+  color: #727272;
+}
+
+.sidebar .nav-link.active {
+  color: #2470dc;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: 1rem;
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .navbar-toggler {
+  top: .25rem;
+  right: 1rem;
+}
+
+.navbar .form-control {
+  padding: .75rem 1rem;
+  border-width: 0;
+  border-radius: 0;
+}
+
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+
+.mess_profile_photo{
+  width: 200px;
+  height:200px;
+  border-radius: 9px;
+  border: 4px solid white;
+  box-shadow:0px 0px 3px 0px;
+}
+
+.expired_icon{
+  width: 200px;
+  height:200px;
+  border-radius: 9px;
+}
+
+.plan_photo{
+  width: 120px;
+  height:120px;
+  border-radius: 9px;
+  border: 4px solid white;
+  box-shadow:0px 0px 3px 0px;
+}
+.mess_numbers{
+  font-weight: 500;
+  font-family: system-ui
+}
+
+.mess_details{
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: rgb(12, 12, 12);
+    font-family: 'system-ui';
+}
+
+.create-order{
+  border: 1px solid lightgray;
+  background: #f7f7ff;
+  box-shadow: 0 0 2px 0px;
+  color: #008b85;
+  width: 120px;
+}
+
+.plans_details p{
+  font-size: 15px;
+  font-weight: 500;
+  line-height:10px;
+  letter-spacing: 0.5px;
+  color: rgb(12, 12, 12);
+  font-family: cursive;
+}
+
+
+.not_active_plans{
+  text-align: center;
+  font-size: 32px;
+  color: #df1e26;
+  letter-spacing: 3px;
+  font-family: fantasy;
+}
+
+
+@media screen and (max-width:575px){
+  .edit-profiles{
+    padding-top:66px;
+  }
+  .user_names{
+    color:black !important;
+  }
+}
+
+.order_table td{
+  text-wrap:nowrap;
+}
+
+.gender_check{
+  display: inline-flex;
+  align-items: center;
+  list-style-type: none;
+}
+.gender_check li{
+  padding:0px 10px 0px 10px;
+}
+
+.menu-item {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-item .edit_icon {
+  position: absolute;
+  top: 50%;
+  font-size:30px;
+  /* opacity:0; */
+  transform: translate(-50%, -50%);
+}
