@@ -1,0 +1,258 @@
+{% extends 'dabba_bala.html' %}
+{% load static %}
+{% block content  %}
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center section-bg">
+    <div class="container-fluid p-0">
+      <div class="row justify-content-between">
+        <div class="order-1 text-center text-lg-start">
+          <!-- <img src="{% static 'assets/img/hero-img.png' %}" class="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="300"> -->
+          <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="/mediafiles/carousel-1.avif" style="width:100%; height:90vh" class="img-fluid" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="/mediafiles/carousel-2.jpg" style="width:100%; height:90vh" class="img-fluid" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="/mediafiles/carousel-3.avif" style="width:100%; height:90vh" class="img-fluid" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="/mediafiles/carousel-4.jpg" style="width:100%; height:90vh" class="img-fluid" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="/mediafiles/carousel-5.avif" style="width:100%; height:90vh" class="img-fluid" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <div class="order-2 justify-content-center align-items-center 
+          align-items-lg-start text-center" style="margin-top:-440px; z-index: 5;">
+          <h2 data-aos="fade-up">Enjoy Your Healthy<br>Delicious Food</h2>
+          <p data-aos="fade-up" data-aos-delay="100" style="font-weight:500">
+            Food Funhouse: Messy Plates, Happy Faces, Embracing the Beautiful Mess</p>
+          <div class="d-flex justify-content-center" data-aos="fade-up" data-aos-delay="200">
+            <a href="{% url 'users:user_signup' %}" class="btn-book-a-table">Join Now</a>
+            <a href="https://youtu.be/ZteVYrqD5uw" 
+                class="glightbox btn-watch-video d-flex align-items-center">
+              <i class="bi bi-play-circle"></i><span>Watch Video</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- End Hero Section -->
+
+  <main id="main">
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>About Us</h2>
+          <p>Learn More <span>About Us</span></p>
+        </div>
+        <div class="row gy-4">
+          <div class="col-lg-6 position-relative about-img" 
+            style="background-image: url(static/images/background_lunch_image.avif); 
+              background-repeat: no-repeat;background-size: cover;" 
+              data-aos="fade-up" data-aos-delay="150">
+            <div class="call-us position-absolute">
+              <h4>Choose a Plan Now</h4>
+              <p>And Get Your Tiffin</p>
+            </div>
+          </div>
+          <div class="col-lg-6 d-flex align-items-end" data-aos="fade-up" data-aos-delay="300">
+            <div class="content ps-0 ps-lg-5">
+              <p class="fst-italic">
+                Dive into the delightful world of culinary chaos at Dabba Express. Our mess-themed haven celebrates the joy, creativity, and flavors found in every messy bite. 
+              </p>
+              <ul>
+                <li><i class="bi bi-check2-all"></i> Explore a tapestry of tastes where each dish tells a unique story. </li>
+                <li><i class="bi bi-check2-all"></i> Food Fusion Frenzy: Where Messy Meets Delicious.</li>
+                <li><i class="bi bi-check2-all"></i> From playful kitchen experiments to delicious disasters, we embrace the beauty of the mess in food.</li>
+              </ul>
+              <p>
+                Join us in savoring the messy journey of gastronomic exploration, where chaos and flavor collide to create unforgettable dining experiences. Get ready to unleash your inner foodie adventurer at Dabba Express!
+              </p>
+
+              <div class="position-relative mt-4">
+                <img src="{% static 'assets/img/about-2.jpg' %}" class="img-fluid" alt="">
+                <a href="https://youtu.be/ZteVYrqD5uw" class="glightbox play-btn"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Why Us Section ======= -->
+    {% if not request.user.user_type == "VENDOR" %}
+    {% include 'why_choose_us.html' %}
+    {% endif %}
+    <!-- End Why Us Section -->
+
+    <!-- ======= Stats Counter Section ======= -->
+    <section id="stats-counter" class="stats-counter">
+      <div class="container" data-aos="zoom-out">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Mess Owners</p>
+            </div>
+          </div><!-- End Stats Item --> 
+          <div class="col-lg-4 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Orders</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          <div class="col-lg-4 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="1435" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Happy Customer</p>
+            </div>
+          </div><!-- End Stats Item -->
+        </div>
+
+      </div>
+    </section><!-- End Stats Counter Section -->
+
+    <!-- ======= Menu Section ======= -->
+    <!-- End Menu Section -->
+
+    <!-- ======= Testimonials Section ======= -->
+    {% include 'customer_reviews.html' %}
+    <!-- End Testimonials Section -->
+
+    <!-- ======= Events Section ======= -->
+    {% include 'mess_plans.html' %}
+    <!-- End Events Section -->
+    
+    <!-- ======= Chefs Section ======= -->
+ 
+    <!-- End Chefs Section -->
+
+    <!-- ======= Book A Table Section ======= -->
+    <!-- End Book A Table Section -->
+
+    <!-- ======= Gallery Section ======= -->
+    <section id="gallery" class="gallery section-bg">
+      <div class="container" data-aos="fade-up">
+        <div class="section-header">
+          <h2>gallery</h2>
+          <p>Check <span>Our Gallery</span></p>
+        </div>
+        <div class="gallery-slider swiper">
+          <div class="swiper-wrapper align-items-center">
+            {% for image in gallery %}
+            <div class="swiper-slide">
+              <a class="glightbox" data-gallery="images-gallery" 
+                href="{{image.image.url}}">
+                <img src="{{image.image.url}}" class="img-fluid" alt="">
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section><!-- End Gallery Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <div class="section-header">
+          <h2>Contact</h2>
+          <p>Need Help? <span>Contact Us</span></p>
+        </div>
+
+        <div class="mb-3">
+          <img style="border:0; width: 100%; height: 350px;" 
+          src="{% static 'images/contact-2.avif' %}">
+        </div><!-- End Google Maps -->
+
+        <div class="row gy-4">
+          <div class="col-md-6">
+            <div class="info-item  d-flex align-items-center">
+              <i class="icon bi bi-map flex-shrink-0"></i>
+              <div>
+                <h3>Our Address</h3>
+                <p>Ananddeep Apartment College Road, Nasik</p>
+              </div>
+            </div>
+          </div><!-- End Info Item -->
+
+          <div class="col-md-6">
+            <div class="info-item d-flex align-items-center">
+              <i class="icon bi bi-envelope flex-shrink-0"></i>
+              <div>
+                <h3>Email Us</h3>
+                <p>dabbaexpress@gmail.com</p>
+              </div>
+            </div>
+          </div><!-- End Info Item -->
+
+          <div class="col-md-6">
+            <div class="info-item  d-flex align-items-center">
+              <i class="icon bi bi-telephone flex-shrink-0"></i>
+              <div>
+                <h3>Call Us</h3>
+                <p>+918275064052</p>
+              </div>
+            </div>
+          </div><!-- End Info Item -->
+          <div class="col-md-6">
+            <div class="info-item  d-flex align-items-center">
+              <i class="icon bi bi-share flex-shrink-0"></i>
+              <div>
+                <h3>Opening Hours</h3>
+                <div><strong>Mon-Sat:</strong> 8AM - 11PM;
+                  <strong>Sunday:</strong> Closed
+                </div>
+              </div>
+            </div>
+          </div><!-- End Info Item -->
+        </div>
+        <!-- <form action="{% static 'forms/contact.php' %}" method="post" role="form" class="php-email-form p-3 p-md-4">
+          <div class="row">
+            <div class="col-xl-6 form-group">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+            </div>
+            <div class="col-xl-6 form-group">
+              <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+          </div>
+          <div class="form-group">
+            <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+          </div>
+          <div class="my-3">
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Your message has been sent. Thank you!</div>
+          </div>
+          <div class="text-center"><button type="submit">Send Message</button></div>
+        </form>-->
+        <!-- End Contact Form  -->
+      </div>
+    </section><!-- End Contact Section -->
+    
+  </main><!-- End #main -->
+{% endblock %}

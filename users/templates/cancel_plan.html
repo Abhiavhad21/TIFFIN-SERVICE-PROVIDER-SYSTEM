@@ -1,0 +1,55 @@
+{% load static %}
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successfull</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/plans.css' %}"  rel="stylesheet">
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+</head>
+<body> 
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="row text-center w-100 justify-content-center">
+                <h4 class="title p-4 text-warning">*You already have two active plans and discontinue one of the active plan to continue</h4>
+                {% for item in plans %}								
+                <div class="col-lg-4 col-sm-6 col-xs-12 wow fadeInUp parent">
+                    <div class="pricing_design">
+                        <div class="single-pricing">
+                            <div class="price-head">		
+                                <h2>{{item.plan.plan|title}}</h2>
+                                <h1>&#8377;{{item.plan.price}}</h1>
+                                <span>Monthly</span>
+                            </div>
+                            <ul>
+                                <li>
+                                {% with item.plan.description as words %}
+                                {% for word in words|split %}
+                                <b>{{word}}</b>
+                                {% endfor %}
+                                {% endwith %}</li>
+                            </ul>
+                            <div class="pricing-price">
+                                <p class="m-0">{{item.plan.subtitle}}</p>
+                                <p class="m-0">{{item.plan.plan_type}}</p>
+                                <p class="m-0">Ending on {{item.end_date|date}}</p>
+                                <p class="m-0">Status {{item.plan_status}}</p>
+                            </div>
+                            <a href="{% url 'users:cancel_plan' item.id %}?uid={{vendor_id}}" class="price_btn">Deactivate</a>
+                        </div>
+                    </div>
+                </div><!--- END COL -->	
+                {% endfor %}
+            </div><!--- END ROW -->
+        </div>
+        <div style="position:relative; margin-top:30px" >
+            <p class="text-danger font-weight-bold text-center">*You will get refund to your purchased account</p>
+        </div>
+        <button onclick ="window.history.back()" style="width: 100px;" class="btn btn-md btn-warning">Go Back</button>	
+    </div>
+</body>
+</html>

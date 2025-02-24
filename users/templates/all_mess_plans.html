@@ -1,0 +1,70 @@
+{% extends 'dabba_bala.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/plans.css' %}">
+  </head>
+
+    <section id="pricing" class="pricing-content mb-2 section-bg">
+        <div class="d-flex mt-2 p-2 bg-light" style="align-items: center;
+        padding: 0px 16px 0 15px;">
+            <div class="mess-info flex-grow-1">
+                <h4>{{mess.mess_name|title}}</h4>
+                <p><strong>Mess Owner: </strong>{{mess.vendor.full_name|title}}</p>
+            </div>
+            <div class="img-responsive">
+                <img src="{{mess.vendor.profile_photo.url}}"  class="img-responsive rounded-circle mess-image" alt="">
+            </div>
+            <div class="mess-info flex-grow-1 text-end">
+                <p><strong>Contact: </strong> {{mess.vendor.phone_no}}</p>
+                <p><strong>Address: </strong> {{mess.vendor.address|title}}</p>
+            </div>
+        </div>
+        <a href="#plans" class="btn change_plan_Tab button_active">Plans</a>/
+        <a href="#menus" class="btn change_plan_Tab">Menus</a>
+        {% include 'mess_menu.html' %}
+        <div class="container mess_tab" id="plans">	
+            <div class="section-header mt-4">
+                <h2>Subscription Plan</h2>
+                <p>Our <span>Best Mess</span> Plans</p>
+            </div>				
+            <div class="row text-center">	
+                {% for item in plans %}								
+                <div class="col-lg-4 col-sm-6 col-xs-12 wow fadeInUp parent" data-wow-duration="1s" data-wow-delay="0.1s" data-wow-offset="0" style="visibility: visible; animation-duration: 1s; animation-delay: 0.1s; animation-name: fadeInUp;">
+                    <div class="pricing_design">
+                        <div class="single-pricing">
+                            <div class="price-head">		
+                                <h2>{{item.plan|title}}</h2>
+                                <h1>&#8377;{{item.price}}</h1>
+                                <span>/Monthly</span>
+                            </div>
+                            <ul>
+                                {% with item.description as words %}
+                                {% for word in words|split %}
+                                <li><b>{{word}}</b></li>
+                                {% endfor %}
+                                {% endwith %}
+                            </ul>
+                            <div class="pricing-price">
+                                <p>{{item.subtitle}}</p>
+                                {% if item.plan_type == "BOTH" %}
+                                <b>Plan for Lunch & Dinner</b>
+                                {% else %}
+                                <b>Plan for {{item.get_plan_type_display}}</b>
+                                {% endif %}
+                            </div>
+                            {% if request.user.is_authenticated %}
+                            <a href="{% url 'users:process_payment' item.id %}" class="price_btn">GET</a>
+                            {% else %}
+                            <a href="{% url 'users:user_signup' %}" class="price_btn">GET</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div><!--- END COL -->	
+                {% endfor  %}
+            </div><!--- END ROW -->
+        </div><!--- END CONTAINER -->
+    </section>
+
+{% endblock %}

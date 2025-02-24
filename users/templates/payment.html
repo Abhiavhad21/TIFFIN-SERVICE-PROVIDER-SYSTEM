@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/payment.css' %}">
+</head>
+<div class="container bg-light d-md-flex align-items-center">
+    <div class="card box1 shadow-sm p-md-5 p-md-5 p-4">
+        <div class="fw-bolder mb-4"><span class="ps-1">Plan Value: &#8377;{{plan.price}}</span></div>
+        <div class="d-flex flex-column">
+            <div class="d-flex align-items-center justify-content-between text"> 
+                <span class="">Plan Name</span><span class="ps-1">{{plan.plan}}</span></span> </div>
+            <div class="d-flex align-items-center justify-content-between text">
+                <span class="">Tax:</span><span class="ps-1">&#8377;5%</span></span> </div>
+            <div class="d-flex align-items-center justify-content-between text mb-4">
+                <span>Plan Cost</span>
+                    <span class="ps-1">&#8377;{{plan.price}}</span>
+                </span>
+            </div>
+            <div class="d-flex align-items-center justify-content-between text mb-4">
+                <span>Total</span>
+                    <span class="ps-1">&#8377;{{plan.price|total:5}}</span>
+                </span>
+            </div>
+            <div class="border-bottom mb-4"></div>
+            <div class="d-flex flex-column mb-4"><span class="far fa-file-alt text"><span class="ps-2">Invoice
+                        ID:</span></span> <span class="ps-3">SN8478042099</span> </div>
+            <div class="d-flex align-items-center justify-content-between text mt-5">
+                <div class="d-flex flex-column text"> <span>Customer Support:</span> <span>online chat 24/7</span>
+                </div>
+                <div class="btn btn-primary rounded-circle"><span class="fas fa-comment-alt"></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="card box2 shadow-sm">
+        <div class="d-flex align-items-center justify-content-between p-md-5 p-4"> <span class="h5 fw-bold m-0">Payment
+                methods</span>
+            <div class="btn btn-primary bar"><span class="fas fa-bars"></span></div>
+        </div>
+        <ul class="nav nav-tabs mb-3 px-md-4 px-2">
+            <li class="nav-item"> 
+                <button class="nav-link change_tab_button px-2 active" aria-current="page" onclick='change_tab(this,"#card-payment")'>Credit Card</button>
+             </li>
+            <li class="nav-item"> 
+                <button class="nav-link change_tab_button px-2" onclick='change_tab(this,"#upi-payment")'>Mobile Payment</button> 
+            </li>
+            <li class="nav-item ms-auto"> 
+                <a class="nav-link px-2" href="#">+ More</a> 
+            </li>
+        </ul>
+        <form method="post" id="card-payment" class="payment_form">
+            {% csrf_token %}
+            <input type="text" value="{{plan.price|total:5}}" style="display:none" name="plan_price">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex flex-column px-md-5 px-4 mb-4"> <span>Credit Card</span>
+                        <div class="inputWithIcon"> 
+                            <input class="form-control" type="text" oninput="restrictInputPhone(this)" value="5136 1845 5468 3894" required>
+                            <span class="">
+                                <img
+                                    src="https://www.freepnglogos.com/uploads/mastercard-png/mastercard-logo-logok-15.png"
+                                    alt="">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex flex-column ps-md-5 px-md-0 px-4 mb-4"> <span>Expiration<span
+                                class="ps-1">Date</span></span>
+                        <div class="inputWithIcon d-flex"> 
+                            <input type="number" name="expiry_month" oninput="restrictMonth(this)" 
+                                class="form-control w-50" min="1" max="12" placeholder="MM" required>
+                            <input type="number" name="expiry_year"  oninput="restrictYear(this)" 
+                                class="form-control w-50" min="2023" max="2050" placeholder="YYYY" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex flex-column pe-md-5 px-md-0 px-4 mb-4"> <span>Code CVV</span>
+                        <div class="inputWithIcon"> 
+                            <input type="password" class="form-control" oninput="restrictInputCVV(this)"
+                            value="123" required> <span class="fas fa-lock"></span> </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-column px-md-5 px-4 mb-4"> <span>Card Holder Name</span>
+                        <div class="inputWithIcon">
+                            <input class="form-control text-uppercase" type="text" value="valdimir berezovkiy" required> <span class="far fa-user"></span> </div>
+                    </div>
+                </div>
+                <div class="col-12 px-md-5 px-4 mt-3">
+                    <button type="submit" class="btn btn-primary w-100">Pay &#8377;{{plan.price}}</button>
+                </div>
+            </div>
+        </form>
+        <form method="post" class="payment_form hidden_class" id="upi-payment">
+            <input type="text" value="{{plan.price|total:5}}" style="display:none" name="plan_price">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex flex-column px-md-5 px-4 mb-4"> <span>Enter Upi Id</span>
+                        <div class="inputWithIcon"> 
+                            <input class="form-control" type="text" value="abcd@upi" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 px-md-5 px-4 mt-3">
+                    <button type="submit" class="btn btn-primary w-100">Pay &#8377;{{plan.price}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function restrictInputPhone(input) {
+    if (input.value.length > 16) {
+      input.value = input.value.slice(0, 16);
+    }
+  }
+  function restrictInputCVV(input){
+    if (input.value.length > 3) {
+      input.value = input.value.slice(0, 3);
+    }
+  }
+  function restrictMonth(input){
+    if (input.value.length > 2) {
+      input.value = input.value.slice(0, 2);
+    }
+  }
+  function restrictYear(input){
+    if (input.value.length > 4) {
+      input.value = input.value.slice(0, 4);
+    }
+  }
+  function change_tab(elem, tab_id){
+    $('.payment_form').addClass('hidden_class')
+    $(tab_id).removeClass('hidden_class')
+    $('.change_tab_button').removeClass('active')
+    $(elem).addClass('active')
+  }
+</script>
+{% endblock %}

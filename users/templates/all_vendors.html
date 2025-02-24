@@ -1,0 +1,73 @@
+{% extends 'dabba_bala.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+<section id="chefs" class="chefs section-bg mt-4">
+    <div class="container" data-aos="fade-up">
+      <div class="section-header">
+        <h2>Mess</h2>
+        <p>Our <span>Special</span> Mess</p>
+      </div>
+      <div class="input-group mb-5 justify-content-center">
+        <form method="post" class="d-flex">
+          {% csrf_token %}
+          <div class="form-outline d-flex flex-input-search align-items-center">
+            {% if search_query %}
+            <span class="badge bg-primary border-rounded" style="height: 25px;">{{search_query}}
+              <span onclick="clear_search(this)" class="bi bi-x-lg font-weight-bolder" data-href="{% url 'users:get_all_vendors' %}"></span>
+            </span>
+            {% endif %}
+            <input id="search-input" type="search" name="search_query" placeholder="search" id="form1" class="form-control" />
+          </div>
+          <button id="search-button" type="submit" class="btn btn-primary">
+            <i class="bi bi-search"></i>        
+          </button>
+        </form>
+      </div>
+      <div class="row gy-4">
+        {% for mess in vendors %}
+        <div class="col-lg-6 col-md-6 align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+          <div class="chef-member d-flex flex-wrap flex-sm-nowrap " data-href="{% url 'users:get_all_mess_plan' mess.id %}">
+            <div class="member-img" >
+              <img src="{{mess.vendor.profile_photo.url}}" class="img-responsive" alt="">
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info flex-grow-1">
+              <h4>{{mess.mess_name}}</h4>
+              <p style="line-height: 0px;">{{mess.vendor.full_name}}</p>
+              <span>{{mess.about|slice_to_100}}</span>
+              <p>{{mess.vendor.city|title}},{{mess.vendor.address|title|slice_to_100}} </p>
+            </div>
+          </div>
+        </div><!-- End Chefs Member -->
+        {% endfor %}
+        {% comment %}
+        <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+          <div class="chef-member">
+            <div class="member-img">
+              <img src="{% static 'assets/img/chefs/chefs-3.jpg' %}" class="img-fluid" alt="">
+              <div class="social">
+                <a href=""><i class="bi bi-twitter"></i></a>
+                <a href=""><i class="bi bi-facebook"></i></a>
+                <a href=""><i class="bi bi-instagram"></i></a>
+                <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>William Anderson</h4>
+              <span>Cook</span>
+              <p>Vero omnis enim consequatur. Voluptas consectetur unde qui molestiae deserunt. Voluptates enim aut architecto porro aspernatur molestiae modi.</p>
+            </div>
+          </div>
+        </div><!-- End Chefs Member -->
+        {% endcomment %}
+      </div>
+
+    </div>
+  </section>
+{% endblock %}

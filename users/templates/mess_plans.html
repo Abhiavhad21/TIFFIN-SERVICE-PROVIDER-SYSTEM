@@ -1,0 +1,31 @@
+{% load static %}
+<section id="events" class="events">
+    <div class="container-fluid" data-aos="fade-up">
+    {% if request.user.user_type == "VENDOR" %}
+    <div class="section-header">
+      <h2>Events</h2>
+      <p>Your <span>Best </span>Plans For <span>Customer</span></p>
+    </div>
+    {% else %}
+    <div class="section-header">
+      <h2>Events</h2>
+      <p>See Some <span>Best Plans </span>For You</p>
+    </div>
+    {% endif %}
+    <div class="slides-3 swiper" data-aos="fade-up" data-aos-delay="100">
+      <div class="swiper-wrapper">
+        {% for plan in plans %}
+        <div class="swiper-slide event-item d-flex flex-column justify-content-end" 
+        style="background-image: url({% if plan.image %}{{plan.image.url}}{% endif %})">
+          <h3>{{plan.plan|title}}</h3>
+          <div class="price align-self-start">&#8377;{{plan.price}}</div>
+          <p class="description">
+            <strong>{{plan.plan_type}} {{plan.duration}} Days</strong><br>{{plan.title}} {{plan.description}}              
+          </p>
+        </div><!-- End Event item -->
+        {% endfor %}
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+</section><!-- End Events Section -->

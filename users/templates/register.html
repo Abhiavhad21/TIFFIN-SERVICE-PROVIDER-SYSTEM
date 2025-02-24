@@ -1,0 +1,339 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href ="{% static 'css/register.css' %}">
+<link rel="stylesheet" href ="{% static 'css/navbar.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Righteous&display=swap" rel="stylesheet">
+<!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+<title>Register</title>
+<style>
+  .selected {
+    border: 2px solid #0A94F1 !important;
+  }
+  
+</style>
+</head>
+<body>
+  
+    <section >
+        <div class="container-fluid p-0">
+          <div class="row m-0"  style="min-height:100vh">
+            <div class="col-md-4 px-0" 
+              style="background-color:#0A94F1;">
+                <div class="px-md-5 pt-md-4 p-3">
+                    <!-- <i class="fas fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;"></i> -->
+                    <span class="register_logo_text">LOGO</span>
+                </div>
+                <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img3.webp"
+                  alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;"> -->
+            </div>
+            <div class="col-md-8  text-black" style="flex-grow: 1;">
+              <div class='row'>
+                <div class="offset-sm-1 col-sm-10 p-1">
+                  <div class="d-flex justify-content-between">
+                    <div class="mt-2 mx-1"><p class="form_heading_title">Registration form</p> </div>
+                    <div class="dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                         <span style="color:black;">&nbsp; {{user.username}} Profile</span>
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'user:transaction' mesh.slug %}">Transaction</a></li>
+                        <li><a class="dropdown-item" href="{% url 'user:userlogout' mesh.slug %}">Logout</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row ">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                  <div class="row m-0 user-flex p-md-2">
+                    <div class="col-2 pr-0 pt-2">
+                      <img {% if mesh.owner.user.userprofile.profile_photo %} src="{{mesh.owner.user.userprofile.profile_photo.url}}" {% else %} src="/mediafiles/blank-profile-picture.png" {% endif %} class="mesh-img md-img-fluid">
+                    </div>
+                    <div class="col-10 p-0">
+                      <div class="row p-0 m-0">
+                            <div class="flex-item col-lg-7 pl-5 pl-sm-0">
+                                <p class="flex-title">{% if mesh %}{{mesh.name | title}}{% else %}Select your mesh.{% endif %}</p>
+                                <p class="flex-desc p-0">{{mesh.owner.user.userprofile.address}}</p>
+                            </div>
+                            <div class="flex-item col-lg-5 " >
+                              <p class="user-number">{% if mesh.owner.user.userprofile.phone_no %}{{mesh.owner.user.userprofile.phone_no}} {% else %} Phone No :{% endif %}</p>
+                              <p class="user-email">{% if mesh %}{{mesh.owner.user.email}}{% else %}Select your mesh.{% endif %}</p>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% for message in messages %}
+                    <div class="alert alert-danger">
+                      <a class="close" href="#" style="text-decoration:none" data-dismiss="alert">
+                      <img src="{% static 'icons/cross_icon.svg' %}"></a>
+                      <span style="font-weight: 300;
+                          font-family: 'poppins';">
+                            {{ message }}
+                        </span>
+                    </div>
+                    {% endfor %} 
+                  <div class="d-flex  pt-xl-0 mt-xl-n5 " >
+                    <form method="post" action="{% url 'user:registeruser' mesh.slug %}" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="row w-100 m-0 p-0 mt-3">
+                        <div class=" col-sm-6 form-group mb-2">
+                            <label class="label-style" for="form2name">Name</label>
+                            <input type="text" id="form2name" name="full_name"
+                            placeholder="Name" value="{{user.username}}" required
+                            {% if request.POST.full_name %} value="{{request.POST.full_name}}" {% endif %}
+                            class="input" />
+                        </div>
+                        <div class=" col-sm-6 form-group mb-2">
+                          <label class="label-style " for="form2email">Email</label>
+                          <input type="email" id="form2email" value="{{user.email}}"
+                          placeholder="Email" name="email"  required
+                          class="input" />
+                        </div>
+                        <div class=" col-sm-6 form-group mb-2">
+                          <label class="label-style " for="form2rollnumber">Roll Number</label>
+                          <input type="text" id="form2rollnumber"
+                          placeholder="Roll Number" name = "roll_number" {% if user_profile.roll_no %}  value="{{user_profile.roll_no}}" {% else %} value="{{request.POST.roll_number}}"  {% endif %}
+                          class="input"  required
+                          />
+                      </div>
+                      <div class=" col-sm-6 form-group  mb-2">
+                        <label class="label-style " for="form2phone">Phone Number</label>
+                        <input type="number" id="form2phone" placeholder="Phone Number"  oninput="restrictInputPhone(this)" name="phone_no" required>
+                          {% if user_profile.phone_no %} value="{{user_profile.phone_no}}" {% endif %}
+                          {% if request.POST.phone_no %} value="{{request.POST.phone_no}}" {% endif %}
+                          class="input" />
+                          <span class="validate_number" id="invalid" style="color:red">Phone Number is invalid !</span>
+                          <span class="validate_number" id="valid" style="color:green">Phone Number is valid !</span>
+                      </div>
+                      
+                        <div class="col-sm-6 form-group mb-2">
+                          <label class="label-style " for="form2password">Enter your password</label>
+                            <input type="password" id="form2password" readonly
+                            placeholder="Enter your password" name="password" value="**********"
+                            class="input" />
+                        </div>
+                        <div class="col-sm-6 form-group mb-2">
+                          <label class="label-style " for="form2confirmpass">Confirm your password</label>
+                          <input type="password" id="form2confirmpass" readonly
+                          placeholder="Confirm your password" name="confirm_password" value="**********"
+                          class="input" />
+                      </div>
+                      <div class="col-sm-6 form-group mb-1">
+                        <label class="label-style " for="form2gender">Gender</label>
+                        <br>
+                        <input type="radio" id="form2male" name="gender" value="MALE" style="width: 20px;height: 20px;"
+                        class="form-check-input" checked/>
+                        <label class="label-style form-check-label pl-5 " 
+                          style="font-size: 14px" for="form2male">Male</label>
+                        <input type="radio" id="form2female" name="gender"  value="FEMALE"
+                        style="width: 20px;height: 20px; margin-left: 50px;" 
+                        class="form-check-input" />
+                        <label class="label-style form-check-label pl-5 " 
+                          style="font-size: 14px" for="form2male">Female</label>
+                      </div>
+                      <div class="col-sm-6 form-group  mb-1">
+                        <label class="label-style" for="form2upload">Upload Photo</label>
+                        <br>
+                        <input type="file" id="myFileInput" name="profile_photo" style="display: none;"  accept="image/*" />
+                        <div class="d-flex">
+                          <div>
+                            <label class="upload-button" for="myFileInput" class="label">
+                              <img src="{% static 'icons/upload.svg' %}">
+                              <span>Upload</span>
+                            </label>
+                          </div>
+                          <div class="mx-2 img-select" {% if not user_profile.profile_photo %}  style="display: none;" {% endif %}>
+                            <img class="img-div" id="previewImage" {% if user_profile.profile_photo %} src="{{user_profile.profile_photo.url}}" {% else %} src="#" {% endif %}  alt="select">
+                          </div>
+                        </div>
+                      </div>
+                      {% for field in extra_fields %}
+                        <div class="col-sm-6 form-group mb-2" >
+                          <label class="label-style" for="form2fields">{{field.field_label|title}}</label>
+                          <input type="{{field.field_type}}" id="form2fields"  
+                            placeholder="{{field.field_label|title}}" name="custom_field_{{field.id}}" required
+                            class="input" />
+                        </div>
+                      {% endfor %}
+                        <div class="col-lg-6 form-group mb-1">
+                          <label class="label-style" for="myCheckbox">Choose Plan</label>
+                          <input type="text" name="plan" id="for2plan" style="display: none;" required>
+                          <div class="d-flex ">
+                              <div class="card" id="card-1" >
+                                <div class="card-body">
+                                  <p class="card-title">Basic</p>
+                                  <p class="card-text" style="height: 13.74px;"><span>{{basic.time_duration}}</span><span> Days</span></p>
+                                  <p class="card-price"><span>&#8377;</span>{{ basic.price }}</p>
+                                </div>
+                              </div>
+                              <div class="card" id="card-2">
+                                <div class="card-body">
+                                  <p class="card-title">Standard</p>
+                                  <p class="card-text"><span>{{standard.time_duration}}</span><span> Days</span></p>
+                                  <p class="card-price"><span>&#8377;</span>{{ standard.price }}</p>
+                                </div>
+                              </div>
+                              <div class="card" id="card-3">
+                                <div class="card-body">
+                                  <p class="card-title">Premium</p>
+                                  <p class="card-text"><span>{{premium.time_duration}}</span><span> Days</span></p>
+                                  <p class="card-price"><span>&#8377;</span>{{premium.price}}</p>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-3 form-group mb-3">
+                          <label class="label-style " for="form2start_date">Start Date</label>
+                          <input type="date" required id="form2start_date"  name="start_date" required
+                          value="{{start_date}}"
+                          class="input" />
+                        </div>
+                        <div class="col-sm-3 form-group  mb-3">
+                            <label class="label-style " for="form2end_date">End Date</label>
+                            <input type="date" id="form2end_date" value="{{end_date}}" required
+                             name="end_date" readonly
+                            class="input" />
+                        </div>
+                        </div>
+                        <div class="row my-2">
+                          <div class="col-sm-6">
+                              <button class="login_button" type="submit"><span>Submit</span></button>
+                          </div>
+                        </div>
+                    </form>
+                    </div>
+                  </div>
+                  <div class="col-md-1"></div>
+                </div>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+      <form method="POST">
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+        var options = {
+            key: "{{razorpay_key}}",
+            amount: "{{order.amount}}", 
+            currency: "INR",
+            name: "{{order.name}}",
+            description: "Test Transaction",
+            image: "https://imgur.com/NOWiBu9",
+            order_id: "{{order.provider_order_id}}",
+            callback_url: "{{callback_url}}",
+            redirect: true,
+            prefill: {
+                "name": "Wangoes",
+                "email": "wangoes@exmple.com",
+                "contact": "9999999999"
+            },
+            notes: {
+                "address": "Razorpay Corporate Office"
+            },
+            theme: {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+        </script>
+        <input type="hidden" custom="Hidden Element" name="hidden">
+    </form>
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+<script>
+  function restrictInputPhone(input) {
+    if (input.value.length > 10) {
+      input.value = input.value.slice(0, 10);
+    }
+  }
+  $(document).ready(function() {
+    duration = ""
+    $('.card').click(function() {
+      $('.card').removeClass('selected')
+      $(this).addClass('selected');
+      id = $(this).attr('id')
+      type = '#'+id+' .card-body' + ' .card-title'
+      duration = '#'+id+' .card-body'+' .card-text'+ ' span'
+      type = $(type).text()
+      duration = $(duration).first().text()
+      $('#for2plan').val(type)
+      updateEndDate();
+      console.log(duration)
+    });
+
+    $('.close').click(function(){
+        $(this).parent().remove()
+      })
+
+    $('#form2phone').change(function(){
+      var phoneNumber = $(this).val();
+      var phoneRegex = /^\d{10}$/; // Regex for 10 digit phone number
+      if (!phoneRegex.test(phoneNumber)) {
+          // alert("Please enter a valid 10-digit phone number");
+          $('#invalid').show()
+          $('#valid').hide()
+          $(".login_button").prop("disabled", true);
+      }
+      else{
+        $('#invalid').hide()
+        $('#valid').show()
+        $(".login_button").prop("disabled", false);
+      }
+    })
+
+    $(document).ready(function() {
+      $('#myFileInput').change(function() {
+        $('.img-select').show()
+        const file = this.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          $('#previewImage').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    function updateEndDate() {
+      data = duration;
+      plan = parseInt(duration)
+      const startDate = new Date($('#form2start_date').val()); 
+      var todayDate = new Date();  
+      if (!isNaN(startDate.getDate()) && startDate.getDate() >= todayDate.getDate()) { 
+        const endDate = new Date(startDate);
+        console.log(endDate)
+        console.log(plan)
+        endDate.setDate(endDate.getDate() + plan-1);
+        console.log("enddate", endDate)
+        const formattedEndDate = endDate.toISOString().split('T')[0];
+        $('#form2end_date').val(formattedEndDate);
+      }
+      else{ 
+        $('#form2start_date').val('')
+        $('#form2end_date').val('')
+      }
+    }
+  $('#for2plan').change(function() {
+    updateEndDate();
+  });
+  // Event listener for changes in the start date field
+  $('#form2start_date').change(function() {
+    updateEndDate();
+  });
+  // Function to update the end date based on the plan and start date
+
+  });
+</script>
+</body>
+</html>
